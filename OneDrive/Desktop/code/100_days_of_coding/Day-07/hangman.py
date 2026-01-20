@@ -1,32 +1,104 @@
 import random
-words=["india", "pakisthan", "Bangladesh", "nepal","akaak"]
-guess_the_word=random.choice(words).lower()
-print(guess_the_word)
+stages = [r'''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========
+''', r'''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========
+''', r'''
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========
+''']
+word_list = ["aardvark", "baboon", "camel"]
 
-length=""
-for i in range(len(guess_the_word)):
-  length+="_"
-print(f"The length of the word is: {length}")
+# TODO-1: - Create a variable called 'lives' to keep track of the number of lives left.
+#  Set 'lives' to equal 6.
+lives=6
+
+chosen_word = random.choice(word_list)
+print(chosen_word)
+
+placeholder = ""
+word_length = len(chosen_word)
+for position in range(word_length):
+    placeholder += "_"
+print(placeholder)
+
+game_over = False
+correct_letters = []
+
+while not game_over:
+    guess = input("Guess a letter: ").lower()
+
+    display = ""
+
+    for letter in chosen_word:
+        if letter == guess:
+            display += letter
+            correct_letters.append(guess)
+        elif letter in correct_letters:
+            display += letter
+        else:
+            display += "_"
+
+    print(display)
+
+    # TODO-2: - If guess is not a letter in the chosen_word, Then reduce 'lives' by 1.
+    #  If lives goes down to 0 then the game should stop and it should print "You lose."
+    if guess not in chosen_word:
+        lives-=1
+        print(stages[lives])
+        print("enter the correct one elese you will loose")
+    if "_" not in display:
+        game_over = True
+        print("You win.")
 
 
-flag=False
-correct_list=[]
-while not flag:
-  letter=input("guess the letter: ")
-  display=""
-  for guess in guess_the_word:
-    if guess==letter:
-      display+=guess
-      correct_list.append(guess)
-
-    elif guess in correct_list:
-      display+=guess
-    else:
-      display+="_"
-  print(display)
-
-  if "_" not in display:
-    flag=True
-
-  
-
+    # TODO-3: - print the ASCII art from 'stages'
+    #  that corresponds to the current number of 'lives' the user has remaining.
